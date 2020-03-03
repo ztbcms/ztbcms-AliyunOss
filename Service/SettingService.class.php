@@ -69,35 +69,26 @@ class SettingService extends BaseService
             $AliyunOssConf = $AliyunOssConfModel->find();
             cache('aliyunOssConf',$AliyunOssConf);
         }
-
         $parseUrl = parse_url($url); //url 分割
         $extension = pathinfo($parseUrl['path'])['extension']; //文件类型
-
         $accessKeyId = $AliyunOssConf['accesskey_id'];    //accessKeyId
         $accessKeySecret = $AliyunOssConf['accesskey_secret']; //accessKeySecret
-
         $host = $parseUrl['host'];  //文件host
-
         $object = $parseUrl['path'];
         $object = substr($object, 1); //文件路径
-
         $timeout = $AliyunOssConf['validity']; //图片有效期
-
         $endpoint = '';
         $bucket = '';
         $bucketList = unserialize($AliyunOssConf['bucket']);
-
         foreach ($bucketList as $k => $v){
             if($host == $v['host']){
                 $endpoint = $v['endpoint'];
                 $bucket = $v['bucket'];
             }
         }
-
         if(!$endpoint || !$bucket){
             return $url;
         }
-
         try {
             $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint, false);
             // 生成GetObject的签名URL。

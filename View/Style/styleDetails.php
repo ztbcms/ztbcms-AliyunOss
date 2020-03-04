@@ -17,12 +17,12 @@
                                 <el-input type="number" v-model="form.listorder"></el-input>
                             </el-form-item>
 
-                            <h3>水印配置</h3>
-
                             <el-form-item label="功能开关">
                                 <el-radio v-model="form.watermarkenable" label="1">开启</el-radio>
                                 <el-radio v-model="form.watermarkenable" label="0">关闭</el-radio>
                             </el-form-item>
+
+                            <h3>水印配置</h3>
 
                             <el-form-item label="水印尺寸" style="display: none;">
                                 <el-input v-model="form.watermarkminwidth" style="width:100px" placeholder="宽度"></el-input>

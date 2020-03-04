@@ -38,6 +38,13 @@ return array(
                 "name" => "样式管理",
                 "parameter" => "",
             ),
+            array(
+                "route" => "AliyunOss/Setting/manual",
+                "type" => 1,
+                "status" => 1,
+                "name" => "使用手册",
+                "parameter" => "",
+            )
         ),
     )
 );

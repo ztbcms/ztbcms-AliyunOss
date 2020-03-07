@@ -56,41 +56,49 @@ class AliyunOssStyleModel extends RelationModel
                 'img_path' => $aliyunRes['watermarkimg'],//水印图片路径
             ];
 
+            $pictures_length = $aliyunRes['pictures_length'];  //原图长度
+            $pictures_width = $aliyunRes['pictures_width']; //原图宽度
+
             $parse_url = parse_url($config['img_path']);
-            $path = $parse_url['path'];  //路径
-            $path = ltrim($path, "/");
-            $path = base64_encode($path);
+            if(strpos($parse_url['host'],'oss')){
+                //水印为OSS的水印
+                $path = $parse_url['path'];  //路径
+                $path = ltrim($path, "/");
+                $path = base64_encode($path);
 
-            $style = 'image/auto-orient,1';
-            $style.= '/watermark,image_'.$path;  //水印
-            $style.= ',t_'.$config['opacity']; //透明度
+                $style = 'image/auto-orient,1';
+                $style.= '/watermark,image_'.$path;  //水印
+                $style.= ',t_'.$config['opacity']; //透明度
 
-            //位置
-            $position = $config['position'];
-            if($position == 'top-left') {
-                $style .= ',g_nw'; //左上
-            } else if($position == 'top'){
-                $style .= ',g_north'; //上
-            } else if($position == 'top-right'){
-                $style .= ',g_ne'; //右上
-            } else if($position == 'left'){
-                $style .= ',g_west'; //中左
-            } else if($position == 'center'){
-                $style .= ',g_center'; //中
-            } else if($position == 'right'){
-                $style .= ',g_east'; //中右
-            } else if($position == 'bottom-left'){
-                $style .= ',g_sw'; //下左
-            } else if($position == 'bottom'){
-                $style .= ',g_south'; //下
-            } else if($position == 'bottom-right'){
-                $style .= ',g_se'; //下右
-            }
-
-            $pictures_length = $aliyunRes['pictures_length'];
-            $pictures_width = $aliyunRes['pictures_width'];
-            if($pictures_length && $pictures_width){
-                $style .= ',image/auto-orient,1/resize,m_lfit,w_'.$pictures_width.',h_'.$pictures_length;
+                //位置
+                $position = $config['position'];
+                if($position == 'top-left') {
+                    $style .= ',g_nw'; //左上
+                } else if($position == 'top'){
+                    $style .= ',g_north'; //上
+                } else if($position == 'top-right'){
+                    $style .= ',g_ne'; //右上
+                } else if($position == 'left'){
+                    $style .= ',g_west'; //中左
+                } else if($position == 'center'){
+                    $style .= ',g_center'; //中
+                } else if($position == 'right'){
+                    $style .= ',g_east'; //中右
+                } else if($position == 'bottom-left'){
+                    $style .= ',g_sw'; //下左
+                } else if($position == 'bottom'){
+                    $style .= ',g_south'; //下
+                } else if($position == 'bottom-right'){
+                    $style .= ',g_se'; //下右
+                }
+                if($pictures_length && $pictures_width){
+                    $style .= ',image/auto-orient,1/resize,m_lfit,w_'.$pictures_width.',h_'.$pictures_length;
+                }
+            } else {
+                //水印不是OSS的水印
+                if($pictures_length && $pictures_width){
+                    $style .= 'image/auto-orient,1/resize,m_lfit,w_'.$pictures_width.',h_'.$pictures_length;
+                }
             }
         }
         return $style;

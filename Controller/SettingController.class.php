@@ -22,7 +22,6 @@ class SettingController extends BaseController
      * 使用手册
      */
     public function manual(){
-        $this->assign('path',APP_PATH.'AliyunOss/Libs/');
         $this->display();
     }
 

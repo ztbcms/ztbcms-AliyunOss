@@ -38,4 +38,15 @@ CREATE TABLE `cms_aliyun_oss_style`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+DROP TABLE IF EXISTS `cms_aliyun_video`;
+CREATE TABLE `cms_aliyun_video` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `video_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'video_id',
+  `cover_url` varchar(255) NOT NULL DEFAULT '' COMMENT '封面图片',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '视频播放地址',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '文件名',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 SET FOREIGN_KEY_CHECKS = 1;

@@ -21,8 +21,9 @@ class AliyunOssStyleModel extends RelationModel
      * @param $post
      * @return array
      */
-    public function checkData($post){
-        if(!$post['title'])   return createReturn(false,'','我们不建议标题为空');
+    public function checkData($post)
+    {
+        if (!$post['title']) return createReturn(false, '', '我们不建议标题为空');
         $content['watermarkenable'] = $post['watermarkenable'];
         $content['watermarkminwidth'] = $post['watermarkminwidth'];
         $content['watermarkminheight'] = $post['watermarkminheight'];
@@ -37,14 +38,16 @@ class AliyunOssStyleModel extends RelationModel
         $content['edit_time'] = time();
         $content['is_display'] = '1';
         $content['is_delete'] = '0';
-        return createReturn(true,$content,'校验成功');
+        $content['quality'] = $post['quality'];
+        $content['quality_num'] = $post['quality_num'];
+        return createReturn(true, $content, '校验成功');
     }
 
     public function getTransferConfig($style_id = 0)
     {
-        $aliyunRes = $this->where(['id'=>$style_id])->find();
+        $aliyunRes = $this->where(['id' => $style_id])->find();
         $style = '';
-        if($aliyunRes['watermarkenable']){
+        if ($aliyunRes['watermarkenable']) {
             //处理水印
             $config = [
                 'enable' => intval($aliyunRes['watermarkenable']),
@@ -59,45 +62,62 @@ class AliyunOssStyleModel extends RelationModel
             $pictures_length = $aliyunRes['pictures_length'];  //原图长度
             $pictures_width = $aliyunRes['pictures_width']; //原图宽度
 
+            $quality = $aliyunRes['quality'];
+            $quality_num = $aliyunRes['quality_num'];
+
             $parse_url = parse_url($config['img_path']);
-            if(strpos($parse_url['host'],'oss')){
+
+            //添加水印的设置
+            if (strpos($parse_url['host'], 'oss')) {
                 //水印为OSS的水印
                 $path = $parse_url['path'];  //路径
                 $path = ltrim($path, "/");
                 $path = base64_encode($path);
 
                 $style = 'image/auto-orient,1';
-                $style.= '/watermark,image_'.$path;  //水印
-                $style.= ',t_'.$config['opacity']; //透明度
+                $style .= '/watermark,image_' . $path;  //水印
+                $style .= ',t_' . $config['opacity']; //透明度
 
                 //位置
                 $position = $config['position'];
-                if($position == 'top-left') {
+                if ($position == 'top-left') {
                     $style .= ',g_nw'; //左上
-                } else if($position == 'top'){
+                } else if ($position == 'top') {
                     $style .= ',g_north'; //上
-                } else if($position == 'top-right'){
+                } else if ($position == 'top-right') {
                     $style .= ',g_ne'; //右上
-                } else if($position == 'left'){
+                } else if ($position == 'left') {
                     $style .= ',g_west'; //中左
-                } else if($position == 'center'){
+                } else if ($position == 'center') {
                     $style .= ',g_center'; //中
-                } else if($position == 'right'){
+                } else if ($position == 'right') {
                     $style .= ',g_east'; //中右
-                } else if($position == 'bottom-left'){
+                } else if ($position == 'bottom-left') {
                     $style .= ',g_sw'; //下左
-                } else if($position == 'bottom'){
+                } else if ($position == 'bottom') {
                     $style .= ',g_south'; //下
-                } else if($position == 'bottom-right'){
+                } else if ($position == 'bottom-right') {
                     $style .= ',g_se'; //下右
                 }
-                if($pictures_length && $pictures_width){
-                    $style .= ',image/auto-orient,1/resize,m_lfit,w_'.$pictures_width.',h_'.$pictures_length;
+            }
+
+            //图片尺寸的设置
+            if ($pictures_length && $pictures_width) {
+                if($style) $style .= ',';
+                $style .= 'image/auto-orient,1/resize,m_lfit,w_' . $pictures_width . ',h_' . $pictures_length;
+            }
+
+            //添加图片质量的设置
+            if($quality > 0){
+                if ($quality == 1) {
+                    //使用相对质量
+                    if($style) $style .= ',';
+                    $style .= 'image/quality,q_'.$quality_num;
                 }
-            } else {
-                //水印不是OSS的水印
-                if($pictures_length && $pictures_width){
-                    $style .= 'image/auto-orient,1/resize,m_lfit,w_'.$pictures_width.',h_'.$pictures_length;
+                if ($quality == 2) {
+                    //使用绝对质量
+                    if($style) $style .= ',';
+                    $style .= 'image/quality,Q_'.$quality_num;
                 }
             }
         }

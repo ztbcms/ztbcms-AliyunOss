@@ -35,6 +35,8 @@ CREATE TABLE `cms_aliyun_oss_style`  (
   `is_display` int(1) UNSIGNED NULL DEFAULT NULL,
   `is_delete` int(1) UNSIGNED NULL DEFAULT NULL,
   `listorder` int(20) UNSIGNED NULL DEFAULT NULL,
+  `quality` int(1) UNSIGNED NULL DEFAULT 0 COMMENT '图片质量  0不压缩 1相对质量  2未绝对质量  ',
+  `quality_num` int(3) UNSIGNED NULL DEFAULT 100 COMMENT '质量百分比',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

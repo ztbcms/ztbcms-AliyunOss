@@ -31,7 +31,7 @@ class StyleService extends BaseService
         } else {
             $id = $AliyunOssStyleModel->add($content);
         }
-        session('aliyunOssStyle_'.$id,'');
+        session('aliyunOssStyle_'.$id,[]);
         return self::createReturn(true,[
             'id'=>$id
         ],'操作成功');

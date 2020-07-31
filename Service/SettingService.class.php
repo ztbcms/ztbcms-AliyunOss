@@ -50,7 +50,7 @@ class SettingService extends BaseService
 
         $id = $AliyunOssConfModel->getField('id');
         $AliyunOssConfModel->where(['id'=>$id])->save($content);
-        cache('aliyunOssConf','');
+        cache('aliyunOssConf',[]);
         return self::createReturn(true,'','操作成功');
     }
 

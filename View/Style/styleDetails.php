@@ -85,6 +85,16 @@
                                 <span>为0不进行处理</span>
                             </el-form-item>
 
+                            <el-form-item label="原图质量控制">
+                                <el-radio v-model="form.quality" label="0">不压缩</el-radio>
+                                <el-radio v-model="form.quality" label="1">相对质量</el-radio>
+                                <el-radio v-model="form.quality" label="2">绝对质量</el-radio>
+                            </el-form-item>
+
+                            <el-form-item label="原图质量百分比" v-if="form.quality !== '0'">
+                                <el-input type="number" v-model="form.quality_num"></el-input>
+                            </el-form-item>
+
                             <el-form-item>
                                 <el-button type="primary" @click="onSubmit">确认</el-button>
                             </el-form-item>
@@ -139,7 +149,9 @@
                         pictures_length : '0',
                         pictures_width : '0',
                         title : '',
-                        listorder : '50'
+                        listorder : '50',
+                        quality : 0,
+                        quality_num : 100
                     }
                 },
                 watch: {},

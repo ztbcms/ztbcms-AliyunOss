@@ -34,8 +34,8 @@
 <br>
 <br>
 <p>（七）对应的样式详情： </p>
-<p> 可提供基本的水印，图片的宽度控制，图片质量控制 </p>
-<img style="width: 100%" src="https://karuike.oss-cn-shenzhen.aliyuncs.com/d/file/module_upload_images/2020/07/5f22a4dac6aa9.jpg">
+<p> 可提供水印的调整，图片的长度，宽度以及图片质量控制，并进行加密解密的控制 </p>
+<img style="width: 100%" src="https://karuike.oss-cn-shenzhen.aliyuncs.com/d/file/module_upload_images/2020/07/5f2387f1720b3.png">
 <br>
 <br>
 <p>（八）具体调用的位置： </p>

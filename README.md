@@ -39,4 +39,4 @@
 <br>
 <br>
 <p>（八）具体调用的位置： </p>
-<img style="width: 100%" src="https://karuike.oss-cn-shenzhen.aliyuncs.com/d/file/module_upload_images/2020/07/5f22a6934decb.jpg">
+<img style="width: 100%" src="https://karuike.oss-cn-shenzhen.aliyuncs.com/d/file/module_upload_images/2020/07/5f23cdc7ec051.jpg">
